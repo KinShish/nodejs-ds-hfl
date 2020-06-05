@@ -1,0 +1,23 @@
+{
+	"db": [],
+	"server": {
+		"host": "localhost",
+		"port": 3000,
+		"plugins": ["swagger", "session"],
+		"modules": ["file"]
+	},
+	"swagger": {
+		"info": {
+			"title":   "API-документация",
+			"version": "0.1.0"
+		},
+		"tags":[{
+			"name":        "api",
+			"description": "Все команды"
+		}, {
+			"name":        "file",
+			"description": "Модуль для работы с файлами"
+		}]
+	}
+}
+
