@@ -25,7 +25,7 @@
 	$('#main').css({'display' : 'none'});
     function deleteString(id){
         $.ajax({
-            url: 'http://192.168.1.23:3000/address/'+id,
+            url: 'http://192.168.0.121:3000/address/'+id,
             type: 'DELETE',
             success: function(res) {
                 if(!res.err){
@@ -37,7 +37,7 @@
 	function loadString(){
 		$('#main').css({'display' : 'block'});
 		$.ajax({
-			url: 'http://192.168.1.23:3000/address',
+			url: 'http://192.168.0.121:3000/address',
 			success: (res)=>{
 				console.log(res);
 				indexString=res.index;
@@ -47,7 +47,11 @@
                 array.forEach(a=>{
                     html+="<div class='stringBlock'><div class='stringBLockTo'><p>"+a.text+"</p><div class='btn'>"
                     for (let type in a.status){
-                        html+="<button onclick=\"successful('"+type+"','"+a.text+"')\">"+type+"<p>"+a.status[type].toFixed(2)+"</p></button>"
+                    	if(Math.trunc(a.status[type]*100)>70){
+		                    html+="<button class='greenBtn' onclick=\"successful('"+type+"','"+a.text+"')\">"+type+"<p>"+Math.trunc(a.status[type]*100)+"%"+"</p></button>"
+                        }else{
+		                    html+="<button class='redBtn' onclick=\"successful('"+type+"','"+a.text+"')\">"+type+"<p>"+Math.trunc(a.status[type]*100)+"%"+"</p></button>"
+                        }
                     }
                     html+="</div></div></div>"
                     $('#table').html(html);
@@ -58,7 +62,7 @@
 		});
 	}
 	function successful(type,text){
-        $.post('http://192.168.1.23:3000/address',{type:type,text:text},(res)=>{
+        $.post('http://192.168.0.121:3000/address',{type:type,text:text},(res)=>{
             console.log(res)
             if(!res.err){
                 alert('Сохранил')
