@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="RU">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="./main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div>
+        <div class="mainBlock">
+            <h3>Строка</h3>
+            <div class="stringBlock">
+                <p id="string"></p>
+                <button onclick="successful()">Да</button>
+                <button onclick="dontSuccessful()">Нет</button>
+            </div>
+            <h3>Город</h3>
+            <p id="sity"></p>
+            <h3>Улица</h3>
+            <p id="street"></p>
+            <h3>Дом</h3>
+            <p id="house"></p>
+        </div>
+    </div>
+</body>
+<script>
+	loadString()
+	function loadString(){
+		let string="101000, г.Москва, пер. Колпачный, дом 6, стр. 5, пом. 2"
+		$('#string').html(string);
+		$('#sity').html('г.Москва');
+		$('#street').html('пер. Колпачный');
+		$('#house').html('дом 6, стр. 5, пом. 2');
+	}
+	function successful(){
+		console.log('работает')
+	}
+	function dontSuccessful(){
+		console.log('не работает')
+	}
+</script>
+</html>

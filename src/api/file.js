@@ -7,28 +7,12 @@ exports.plugin = {
     register: async (server) => {
         server.route({
             method: 'POST',
-            path:   '/text/ilya',
+            path:   '/text',
             config: {
                 async handler(req) {
                     return req.payload.text
                 },
-                description: 'Обработка текста Илья',
-                tags:        ['api'],
-                validate: {
-                    payload: Joi.object({
-                        text: Joi.string()
-                    })
-                }
-            }
-        });
-        server.route({
-            method: 'POST',
-            path:   '/text/ds',
-            config: {
-                async handler(req) {
-                    return req.payload.text
-                },
-                description: 'Обработка текста Дима',
+                description: 'Обзор всех категорий',
                 tags:        ['api'],
                 validate: {
                     payload: Joi.object({
