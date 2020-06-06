@@ -1,7 +1,8 @@
 const Joi = require('@hapi/joi');
 const dateFormat = require('dateformat');
 const fs=require('fs');
-
+const natural = require('natural');
+const arrayFinish=require('../../train/array-finish.json');
 exports.plugin = {
     name:    'file',
     version: '0.0.1',
@@ -27,7 +28,26 @@ exports.plugin = {
             path:   '/address',
             config: {
                 async handler(req) {
-                    return require('../../train/array-address.json').address[0]
+                    const address=await require('../../train/array-address.json').address[0];
+                    const status={};
+                    address.array.forEach(text=>{
+                        const findMax=(index)=>{
+                            let max=status[index]?status[index]:0;
+                            arrayFinish[index].forEach(a=>{
+                                if(natural.JaroWinklerDistance(text, a)>max){
+                                    max=natural.JaroWinklerDistance(text, a);
+                                }
+                            })
+                            status[index]=max;
+                        }
+                        findMax('country');
+                        findMax('region');
+                        findMax('city');
+                        findMax('street');
+                        findMax('house');
+                        findMax('room');
+                    })
+                    return {index:address.index,text:address.array.join(','),status:status}
                 },
                 description: 'Обзор всех категорий',
                 tags:        ['api']
