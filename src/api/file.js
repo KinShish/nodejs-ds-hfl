@@ -91,7 +91,7 @@ exports.plugin = {
                 }
             }
         });
-        server.route({
+        /*server.route({
             method: 'POST',
             path:   '/address',
             config: {
@@ -130,5 +130,7 @@ exports.plugin = {
 
             }
         });
+
+         */
     }
 };

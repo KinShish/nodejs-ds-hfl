@@ -12,86 +12,8 @@
     <div class="stringBlock">
         <p id="string"></p>
     </div>
-    <div class="stringBlock">
-        <div class="stringBLockTo">
-            <p id="country"></p>
-            <div class="btn">
-                <button>City<p id="countryStatusCity"></p></button>
-                <button>Country<p id="countryStatusCountry"></p></button>
-                <button>House<p id="countryStatusHouse"></p></button>
-                <button>Region<p id="countryStatusRegion"></p></button>
-                <button>Room<p id="countryStatusRoom"></p></button>
-                <button>Street<p id="countryStatusStreet"></p></button>
-            </div>
-        </div>
-    </div>
-    <div class="stringBlock">
-        <div class="stringBLockTo">
-            <p id="city"></p>
-            <div class="btn">
-                <button>City<p id="cityStatusCity"></p></button>
-                <button>Country<p id="cityStatusCountry"></p></button>
-                <button>House<p id="cityStatusHouse"></p></button>
-                <button>Region<p id="cityStatusRegion"></p></button>
-                <button>Room<p id="cityStatusRoom"></p></button>
-                <button>Street<p id="cityStatusStreet"></p></button>
-            </div>
-        </div>
-    </div>
-    <div class="stringBlock">
-        <div class="stringBLockTo">
-            <p id="region"></p>
-            <div class="btn">
-                <button>City<p id="countryStatusCity"></p></button>
-                <button>Country<p id="countryStatusCountry"></p></button>
-                <button>House<p id="countryStatusHouse"></p></button>
-                <button>Region<p id="countryStatusRegion"></p></button>
-                <button>Room<p id="countryStatusRoom"></p></button>
-                <button>Street<p id="countryStatusStreet"></p></button>
-            </div>
-        </div>
-    </div>
-    <div class="stringBlock">
-        <div class="stringBLockTo">
-            <p id="street"></p>
-            <div class="btn">
-                <button>City<p id="countryStatusCity"></p></button>
-                <button>Country<p id="countryStatusCountry"></p></button>
-                <button>House<p id="countryStatusHouse"></p></button>
-                <button>Region<p id="countryStatusRegion"></p></button>
-                <button>Room<p id="countryStatusRoom"></p></button>
-                <button>Street<p id="countryStatusStreet"></p></button>
-            </div>
-        </div>
-    </div>
-    <div class="stringBlock">
-        <div class="stringBLockTo">
-            <p id="house"></p>
-            <div class="btn">
-                <button>City<p id="countryStatusCity"></p></button>
-                <button>Country<p id="countryStatusCountry"></p></button>
-                <button>House<p id="countryStatusHouse"></p></button>
-                <button>Region<p id="countryStatusRegion"></p></button>
-                <button>Room<p id="countryStatusRoom"></p></button>
-                <button>Street<p id="countryStatusStreet"></p></button>
-            </div>
-        </div>
-    </div>
-    <div class="status">
-        <p id="roomStatus"></p>
-    </div>
-    <div class="stringBlock">
-        <div class="stringBLockTo">
-            <p id="room"></p>
-            <div class="btn">
-                <button>City<p id="countryStatusCity"></p></button>
-                <button>Country<p id="countryStatusCountry"></p></button>
-                <button>House<p id="countryStatusHouse"></p></button>
-                <button>Region<p id="countryStatusRegion"></p></button>
-                <button>Room<p id="countryStatusRoom"></p></button>
-                <button>Street<p id="countryStatusStreet"></p></button>
-            </div>
-        </div>
+    <div id="table">
+
     </div>
 </div>
 </body>
@@ -101,27 +23,23 @@
 	function loadString(){
 		$('#main').css({'display' : 'block'});
 		$.ajax({
-			url: 'http://192.168.0.121:3000/address',
+			url: 'http://192.168.1.23:3000/address',
 			success: (res)=>{
 				console.log(res);
 				indexString=res.index;
+				let array=res.array;
+				let html="";
 				$('#string').html(res.text);
 				//Cтрана
-				$('#country').html(res.array[0].text);
-				$('#countryStatusCity').html(res.array[0].status.city);
-				$('#countryStatusCountry').html(res.array[0].status.country);
-				$('#countryStatusHouse').html(res.array[0].status.house);
-				$('#countryStatusRegion').html(res.array[0].status.region);
-				$('#countryStatusRoom').html(res.array[0].status.room);
-				$('#countryStatusStreet').html(res.array[0].status.street);
-				//Город
-				$('#city').html(res.array[1].text);
-				$('#cityStatusCity').html(res.array[1].status.city);
-				$('#cityStatusCountry').html(res.array[1].status.country);
-				$('#cityStatusHouse').html(res.array[1].status.house);
-				$('#cityStatusRegion').html(res.array[1].status.region);
-				$('#cityStatusRoom').html(res.array[1].status.room);
-				$('#cityStatusStreet').html(res.array[1].status.street);
+                array.forEach(a=>{
+                    html+="<div class='stringBlock'><div class='stringBLockTo'><p>"+a.text+"</p><div class='btn'>"
+                    for (let type in a.status){
+                        html+="<button>"+type+"<p>"+a.status[type]+"</p></button>"
+                    }
+                    html+="</div></div></div>"
+                    $('#table').html(html);
+                })
+
 
 			}
 		});
