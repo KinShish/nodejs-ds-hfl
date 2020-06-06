@@ -29,8 +29,9 @@ exports.plugin = {
             config: {
                 async handler(req) {
                     const address=await require('../../train/array-address.json').address[0];
-                    const status={};
+                    const array=[];
                     address.array.forEach(text=>{
+                        const status={};
                         const findMax=(index)=>{
                             let max=status[index]?status[index]:0;
                             arrayFinish[index].forEach(a=>{
@@ -46,8 +47,9 @@ exports.plugin = {
                         findMax('street');
                         findMax('house');
                         findMax('room');
+                        array.push({text:text,status:status})
                     })
-                    return {index:address.index,text:address.array.join(','),status:status}
+                    return {index:address.index,text:address.array.join(','),array:array}
                 },
                 description: 'Обзор всех категорий',
                 tags:        ['api']
