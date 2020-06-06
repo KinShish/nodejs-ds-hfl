@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="RU">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<button class="mainBtn" onclick="loadString()">Начать</button>
+<div id="main">
+    <h3>Строка</h3>
+    <div class="stringBlock">
+        <p id="string"></p>
+    </div>
+    <div id="table">
+
+    </div>
+
+</div>
+<div id="close"></div>
+
+</body>
+<script>
+	let indexString;
+	$('#main').css({'display' : 'none'});
+    function deleteString(id){
+        $.ajax({
+            url: 'http://192.168.1.23:3000/address/'+id,
+            type: 'DELETE',
+            success: function(res) {
+                if(!res.err){
+                    loadString();
+                }
+            }
+        });
+    }
+	function loadString(){
+		$('#main').css({'display' : 'block'});
+		$.ajax({
+			url: 'http://192.168.1.23:3000/address',
+			success: (res)=>{
+				console.log(res);
+				indexString=res.index;
+				let array=res.array;
+				let html="";
+				$('#string').html(res.text);
+                array.forEach(a=>{
+                    html+="<div class='stringBlock'><div class='stringBLockTo'><p>"+a.text+"</p><div class='btn'>"
+                    for (let type in a.status){
+                        console.log(a.status[type]>0.85)
+                    	if(a.status[type]>0.85){
+		                    html+="<button class='greenBtn' onclick=\"successful('"+type+"','"+a.text+"')\">"+type+"<p>"+Math.trunc(a.status[type]*100)+"%"+"</p></button>"
+                        }else{
+		                    html+="<button class='redBtn' onclick=\"successful('"+type+"','"+a.text+"')\">"+type+"<p>"+Math.trunc(a.status[type]*100)+"%"+"</p></button>"
+                        }
+                    }
+                    html+="</div></div></div>"
+                    $('#table').html(html);
+                })
+                $('#close').html("<button class=\"mainBtn\" onclick=\"deleteString("+indexString+")\">Завершить</button>");
+
+			}
+		});
+	}
+	function successful(type,text){
+        $.post('http://192.168.1.23:3000/address',{type:type,text:text},(res)=>{
+            console.log(res)
+            if(!res.err){
+                console.log('Сохранил')
+            }
+        })
+	}
+</script>
+</html>

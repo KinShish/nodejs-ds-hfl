@@ -3,58 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="main.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Title</title>
 </head>
 <body>
-<button class="mainBtn" onclick="loadString()">Начать</button>
-<div id="main">
-    <h3>Строка</h3>
-    <div class="stringBlock">
-        <p id="string"></p>
-    </div>
-    <div id="table">
-
-    </div>
+<div class="divButton">
+    <a  class="mainBtn inline" href="./auto.html"> auto</a>
+    <a  class="mainBtn inline" href="./head.html"> head</a>
 </div>
 </body>
-<script>
-	let indexString;
-	$('#main').css({'display' : 'none'});
-	function loadString(){
-		$('#main').css({'display' : 'block'});
-		$.ajax({
-			url: 'http://192.168.0.121:3000/address',
-			success: (res)=>{
-				console.log(res);
-				indexString=res.index;
-				let array=res.array;
-				let html="";
-				$('#string').html(res.text);
-                array.forEach(a=>{
-                    html+="<div class='stringBlock'><div class='stringBLockTo'><p>"+a.text+"</p><div class='btn'>"
-                    for (let type in a.status){
-                        html+="<button onclick=\"successful('"+type+"','"+a.text+"')\">"+type+"<p>"+a.status[type].toFixed(2)+"</p></button>"
-                    }
-                    html+="</div></div></div>"
-                    $('#table').html(html);
-                })
-			}
-		});
-	}
-	function successful(type,text){
-		$.ajax({
-			type: 'POST',
-			url: 'http://192.168.0.121:3000/address',
-			data: {"text": text,"type": type},
-			success: (res)=>{
-				console.log(res)
-			},
-            error:(res)=>{
-	            console.log(res)
-            }
-		});
-
-		console.log(type,text)
-	}
-</script>
 </html>

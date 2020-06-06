@@ -1,6 +1,10 @@
 .stringBlock{
     border-bottom:2px solid green;
 }
+.divButton{
+    text-align: center;
+    top: 50px
+}
 .stringBlock p{
     border:none;
     margin: 0;
@@ -9,19 +13,13 @@
 .btn button{
     margin-left:40px;
     min-width:70px;
-    height:30px;
+    height:35px;
     outline:none;
     margin-top:-10px;
     margin-bottom:5px;
     cursor:pointer;
     float: right;
     color: #fff;
-    background-color: #28a745;
-    border: 1px solid #28a745;
-}
-.btn button:hover{
-    background-color: #218838;
-    border-color: #1e7e34;
 }
 .stringBLockTo{
     display: flex;
@@ -45,8 +43,28 @@
     text-align: center;
     vertical-align: middle;
 }
+.inline{
+    display: inline-block;
+    text-decoration: none;
+}
 .mainBtn:hover{
     background: #fff;
     border-color: #20457d;
     color: #20457d;
+}
+.redBtn{
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+.redBtn:hover{
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+.greenBtn{
+    background-color: #28a745;
+    border: 1px solid #28a745;
+}
+.greenBtn:hover{
+    background-color: #218838;
+    border-color: #1e7e34;
 }
