@@ -61,3 +61,10 @@
     border-color: #20457d;
     color: #20457d;
 }
+.status{
+    display: flex;
+}
+.status p{
+    margin-top: 23px;
+    margin-left: 30px;
+}

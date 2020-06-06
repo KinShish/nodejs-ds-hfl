@@ -12,13 +12,16 @@
         <div class="stringBlock">
             <div class="stringBLockTo">
                 <p id="string"></p>
-                <div class="btn">
+                <!--<div class="btn">
                     <button onclick="successful()">Да</button>
                     <button onclick="dontSuccessful()">Нет</button>
-                </div>
+                </div>-->
             </div>
         </div>
-        <h3>Страна</h3>
+        <div class="status">
+            <h3>Страна</h3>
+            <p id="countryStatus"></p>
+        </div>
         <div class="stringBlock">
             <div class="stringBLockTo">
                 <p id="country"></p>
@@ -28,17 +31,36 @@
                 </div>
             </div>
         </div>
-        <h3>Город</h3>
+        <div class="status">
+            <h3>Город</h3>
+            <p id="cityStatus"></p>
+        </div>
         <div class="stringBlock">
             <div class="stringBLockTo">
-                <p id="sity"></p>
+                <p id="city"></p>
                 <div class="btn">
                     <button onclick="successful()">Да</button>
                     <button onclick="dontSuccessful()">Нет</button>
                 </div>
             </div>
         </div>
-        <h3>Улица</h3>
+        <div class="status">
+            <h3>Регион</h3>
+            <p id="regionStatus"></p>
+        </div>
+        <div class="stringBlock">
+            <div class="stringBLockTo">
+                <p id="region"></p>
+                <div class="btn">
+                    <button onclick="successful()">Да</button>
+                    <button onclick="dontSuccessful()">Нет</button>
+                </div>
+            </div>
+        </div>
+        <div class="status">
+            <h3>Улица</h3>
+            <p id="streetStatus"></p>
+        </div>
         <div class="stringBlock">
             <div class="stringBLockTo">
                 <p id="street"></p>
@@ -48,7 +70,10 @@
                 </div>
             </div>
         </div>
-        <h3>Дом</h3>
+        <div class="status">
+            <h3>Дом</h3>
+            <p id="houseStatus"></p>
+        </div>
         <div class="stringBlock">
             <div class="stringBLockTo">
                 <p id="house"></p>
@@ -58,23 +83,42 @@
                 </div>
             </div>
         </div>
+        <div class="status">
+            <h3>Квартира</h3>
+            <p id="roomStatus"></p>
+        </div>
+        <div class="stringBlock">
+            <div class="stringBLockTo">
+                <p id="room"></p>
+                <div class="btn">
+                    <button onclick="successful()">Да</button>
+                    <button onclick="dontSuccessful()">Нет</button>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 <script>
+    let indexString;
 	$('#main').css({'display' : 'none'});
 	function loadString(){
 		$('#main').css({'display' : 'block'});
 		$.ajax({
-			url: 'http://192.168.1.23:3000/address',
+			url: 'http://192.168.0.121:3000/address',
 			success: (res)=>{
-				console.log(res.array);
-				$('#string').html(res.array.join(''));
-				$('#sity').html(res.array[1]);
+				console.log(res);
+				indexString=res.index;
+				$('#string').html(res.text);
+
+				$('#countryStatus').html(res.status.country);
+				$('#cityStatus').html(res.status.city);
+				$('#regionStatus').html(res.status.region);
+				$('#streetStatus').html(res.status.street);
+				$('#houseStatus').html(res.status.house);
+				$('#roomStatus').html(res.status.room);
+
 			}
 		});
-		/*$('#country').html('Рашка');
-		$('#street').html('пер. Колпачный');
-		$('#house').html('дом 6, стр. 5, пом. 2');*/
 	}
 	function successful(){
 		console.log('работает')
