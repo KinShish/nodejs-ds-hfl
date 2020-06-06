@@ -47,7 +47,7 @@
                 array.forEach(a=>{
                     html+="<div class='stringBlock'><div class='stringBLockTo'><p>"+a.text+"</p><div class='btn'>"
                     for (let type in a.status){
-                    	if(Math.trunc(a.status[type]*100)>70){
+                    	if(a.status[type]>0.7){
 		                    html+="<button class='greenBtn' onclick=\"successful('"+type+"','"+a.text+"')\">"+type+"<p>"+Math.trunc(a.status[type]*100)+"%"+"</p></button>"
                         }else{
 		                    html+="<button class='redBtn' onclick=\"successful('"+type+"','"+a.text+"')\">"+type+"<p>"+Math.trunc(a.status[type]*100)+"%"+"</p></button>"
