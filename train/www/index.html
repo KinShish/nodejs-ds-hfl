@@ -6,31 +6,75 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-    <div>
-        <div class="mainBlock">
-            <h3>Строка</h3>
-            <div class="stringBlock">
+    <button class="mainBtn" onclick="loadString()">Начать</button>
+    <div id="main">
+        <h3>Строка</h3>
+        <div class="stringBlock">
+            <div class="stringBLockTo">
                 <p id="string"></p>
-                <button onclick="successful()">Да</button>
-                <button onclick="dontSuccessful()">Нет</button>
+                <div class="btn">
+                    <button onclick="successful()">Да</button>
+                    <button onclick="dontSuccessful()">Нет</button>
+                </div>
             </div>
-            <h3>Город</h3>
-            <p id="sity"></p>
-            <h3>Улица</h3>
-            <p id="street"></p>
-            <h3>Дом</h3>
-            <p id="house"></p>
+        </div>
+        <h3>Страна</h3>
+        <div class="stringBlock">
+            <div class="stringBLockTo">
+                <p id="country"></p>
+                <div class="btn">
+                    <button onclick="successful()">Да</button>
+                    <button onclick="dontSuccessful()">Нет</button>
+                </div>
+            </div>
+        </div>
+        <h3>Город</h3>
+        <div class="stringBlock">
+            <div class="stringBLockTo">
+                <p id="sity"></p>
+                <div class="btn">
+                    <button onclick="successful()">Да</button>
+                    <button onclick="dontSuccessful()">Нет</button>
+                </div>
+            </div>
+        </div>
+        <h3>Улица</h3>
+        <div class="stringBlock">
+            <div class="stringBLockTo">
+                <p id="street"></p>
+                <div class="btn">
+                    <button onclick="successful()">Да</button>
+                    <button onclick="dontSuccessful()">Нет</button>
+                </div>
+            </div>
+        </div>
+        <h3>Дом</h3>
+        <div class="stringBlock">
+            <div class="stringBLockTo">
+                <p id="house"></p>
+                <div class="btn">
+                    <button onclick="successful()">Да</button>
+                    <button onclick="dontSuccessful()">Нет</button>
+                </div>
+            </div>
         </div>
     </div>
 </body>
 <script>
-	loadString()
+	$('#main').css({'display' : 'none'});
 	function loadString(){
-		let string="101000, г.Москва, пер. Колпачный, дом 6, стр. 5, пом. 2"
-		$('#string').html(string);
-		$('#sity').html('г.Москва');
+		$('#main').css({'display' : 'block'});
+		$.ajax({
+			url: 'http://192.168.0.121:3000/address',
+			success: (res)=>{
+				console.log(res.array);
+				$('#string').html(res.array.join(''));
+				$('#sity').html(res.array[1]);
+			}
+		});
+		/*$('#country').html('Рашка');
 		$('#street').html('пер. Колпачный');
-		$('#house').html('дом 6, стр. 5, пом. 2');
+		$('#house').html('дом 6, стр. 5, пом. 2');*/
 	}
 	function successful(){
 		console.log('работает')

@@ -1,15 +1,12 @@
-.mainBlock p{
-    margin:0;
-    border-bottom:2px solid green;
-}
 .stringBlock{
-    display:flex;
     border-bottom:2px solid green;
 }
 .stringBlock p{
     border:none;
+    margin: 0;
+    width: 100%;
 }
-.stringBlock button{
+.btn button{
     margin-left:40px;
     width:70px;
     height:30px;
@@ -18,22 +15,49 @@
     margin-top:-10px;
     margin-bottom:5px;
     cursor:pointer;
+    float: right;
 }
-.stringBlock button:nth-child(2){
+.btn button:nth-child(1){
     color: #fff;
     background-color: #28a745;
     border-color: #28a745;
 }
-.stringBlock button:nth-child(2):hover{
+.btn button:nth-child(1):hover{
     background-color: #218838;
     border-color: #1e7e34;
 }
-.stringBlock button:nth-child(3){
+.btn button:nth-child(2){
     color: #fff;
     background-color: #dc3545;
     border-color: #dc3545;
 }
-.stringBlock button:nth-child(3):hover{
+.btn button:nth-child(2):hover{
     background-color: #c82333;
     border-color: #bd2130;
+}
+.stringBLockTo{
+    display: flex;
+}
+.btn{
+    width: 100%;
+}
+.mainBtn{
+    margin: 0 auto;
+    font-size: 20px;
+    display: block;
+    cursor: pointer;
+    background: #20457d;
+    color: #fff;
+    border-radius: 5px;
+    border: 2px solid #20457d;
+    padding: .375rem .75rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    line-height: 1.5;
+    text-align: center;
+    vertical-align: middle;
+}
+.mainBtn:hover{
+    background: #fff;
+    border-color: #20457d;
+    color: #20457d;
 }
