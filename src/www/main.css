@@ -1,0 +1,39 @@
+.mainBlock p{
+    margin:0;
+    border-bottom:2px solid green;
+}
+.stringBlock{
+    display:flex;
+    border-bottom:2px solid green;
+}
+.stringBlock p{
+    border:none;
+}
+.stringBlock button{
+    margin-left:40px;
+    width:70px;
+    height:30px;
+    border:none;
+    outline:none;
+    margin-top:-10px;
+    margin-bottom:5px;
+    cursor:pointer;
+}
+.stringBlock button:nth-child(2){
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+.stringBlock button:nth-child(2):hover{
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+.stringBlock button:nth-child(3){
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+.stringBlock button:nth-child(3):hover{
+    background-color: #c82333;
+    border-color: #bd2130;
+}
