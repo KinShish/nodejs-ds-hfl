@@ -10,7 +10,8 @@ const init = async (configs) => {
         port: port,
         routes: {
             cors: {
-                origin: ["*"]
+                origin: ["*"],
+                additionalHeaders: ['cache-control', 'x-requested-with',]
             }
         }
     });

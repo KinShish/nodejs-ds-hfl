@@ -17,6 +17,7 @@
     "@hapi/vision": "^6.0.0",
     "bcrypt-nodejs": "0.0.3",
     "chai": "^4.2.0",
+    "cli-progress": "^3.8.2",
     "dateformat": "^3.0.3",
     "hapi-error": "^2.3.0",
     "hapi-server-session": "^5.0.0",
