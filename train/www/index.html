@@ -23,7 +23,7 @@
 	function loadString(){
 		$('#main').css({'display' : 'block'});
 		$.ajax({
-			url: 'http://192.168.1.23:3000/address',
+			url: 'http://192.168.0.121:3000/address',
 			success: (res)=>{
 				console.log(res);
 				indexString=res.index;
@@ -41,8 +41,17 @@
 			}
 		});
 	}
-	function successful(type){
-		console.log(type)
+	function successful(type,text){
+		$.ajax({
+			type: 'POST',
+			url: 'http://192.168.0.121:3000/address',
+			data: {"text": text,"type": type},
+			success: (res)=>{
+				console.log(res)
+			}
+		});
+
+		console.log(type,text)
 	}
 </script>
 </html>
