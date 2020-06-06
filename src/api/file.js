@@ -2,7 +2,7 @@ const Joi = require('@hapi/joi');
 const dateFormat = require('dateformat');
 const fs=require('fs');
 const natural = require('natural');
-const arrayFinish=require('../../train/array-finish.json');
+let arrayFinish=require('../../train/array-finish.json');
 exports.plugin = {
     name:    'file',
     version: '0.0.1',
@@ -35,6 +35,7 @@ exports.plugin = {
                         const findMax=(index)=>{
                             let max=status[index]?status[index]:0;
                             arrayFinish[index].forEach(a=>{
+                                console.log(text, a,natural.JaroWinklerDistance(text, a))
                                 if(natural.JaroWinklerDistance(text, a)>max){
                                     max=natural.JaroWinklerDistance(text, a);
                                 }
@@ -91,46 +92,27 @@ exports.plugin = {
                 }
             }
         });
-        /*server.route({
+        server.route({
             method: 'POST',
             path:   '/address',
             config: {
                 async handler(req) {
-                    const address=await require('../../train/array-address.json').address[0];
-                    const array=[];
-                    address.array.forEach(text=>{
-                        const status={};
-                        const findMax=(index)=>{
-                            let max=status[index]?status[index]:0;
-                            arrayFinish[index].forEach(a=>{
-                                if(natural.JaroWinklerDistance(text, a)>max){
-                                    max=natural.JaroWinklerDistance(text, a);
-                                }
-                            })
-                            status[index]=max;
-                        }
-                        findMax('country');
-                        findMax('region');
-                        findMax('city');
-                        findMax('street');
-                        findMax('house');
-                        findMax('room');
-                        array.push({text:text,status:status})
-                    })
-                    return {index:address.index,text:address.array.join(','),array:array}
+                    const [text,type]=req.payload;
+                    arrayFinish[type].push(text);
+                    const fd = fs.openSync("train/array-finish.json",'w');
+                    fs.writeSync(fd, JSON.stringify(arrayFinish));
+                    fs.closeSync(fd);
+                    return {err:false, text:"Все заебись"}
                 },
                 description: 'Обзор всех категорий',
                 tags:        ['api'],
                 validate: {
-                    params:Joi.object({
+                    payload:Joi.object({
                         text:Joi.string(),
                         type:Joi.string()
                     })
                 }
-
             }
         });
-
-         */
     }
 };
