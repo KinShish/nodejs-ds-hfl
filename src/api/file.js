@@ -119,5 +119,26 @@ exports.plugin = {
                 }
             }
         });
+        server.route({
+            method: 'POST',
+            path:   '/address/auto',
+            config: {
+                async handler(req) {
+                    console.log(req.payload);
+                },
+                description: 'Обзор всех категорий',
+                tags:        ['api'],
+                payload: {
+                    output: 'stream',
+                    parse: true,
+                    allow: 'multipart/form-data'
+                },
+                validate: {
+                    payload:Joi.object({
+                        file: Joi.any().required(),
+                    })
+                }
+            }
+        });
     }
 };
