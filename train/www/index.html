@@ -15,11 +15,25 @@
     <div id="table">
 
     </div>
+
 </div>
+<div id="close"></div>
+
 </body>
 <script>
 	let indexString;
 	$('#main').css({'display' : 'none'});
+    function deleteString(id){
+        $.ajax({
+            url: 'http://192.168.1.23:3000/address/'+id,
+            type: 'DELETE',
+            success: function(res) {
+                if(!res.err){
+                    loadString();
+                }
+            }
+        });
+    }
 	function loadString(){
 		$('#main').css({'display' : 'block'});
 		$.ajax({
@@ -38,11 +52,18 @@
                     html+="</div></div></div>"
                     $('#table').html(html);
                 })
+                $('#close').html("<button class=\"mainBtn\" onclick=\"deleteString("+indexString+")\">Завершить</button>");
+
 			}
 		});
 	}
 	function successful(type,text){
-		console.log(type,text)
+        $.post('http://192.168.1.23:3000/address',{type:type,text:text},(res)=>{
+            console.log(res)
+            if(!res.err){
+                alert('Сохранил')
+            }
+        })
 	}
 </script>
 </html>
