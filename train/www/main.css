@@ -8,35 +8,24 @@
 }
 .btn button{
     margin-left:40px;
-    width:70px;
+    min-width:70px;
     height:30px;
-    border:none;
     outline:none;
     margin-top:-10px;
     margin-bottom:5px;
     cursor:pointer;
     float: right;
-}
-.btn button:nth-child(1){
     color: #fff;
     background-color: #28a745;
-    border-color: #28a745;
+    border: 1px solid #28a745;
 }
-.btn button:nth-child(1):hover{
+.btn button:hover{
     background-color: #218838;
     border-color: #1e7e34;
 }
-.btn button:nth-child(2){
-    color: #fff;
-    background-color: #dc3545;
-    border-color: #dc3545;
-}
-.btn button:nth-child(2):hover{
-    background-color: #c82333;
-    border-color: #bd2130;
-}
 .stringBLockTo{
     display: flex;
+    margin-top: 15px;
 }
 .btn{
     width: 100%;
