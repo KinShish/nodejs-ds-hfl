@@ -97,12 +97,17 @@ exports.plugin = {
             path:   '/address',
             config: {
                 async handler(req) {
-                    const [text,type]=req.payload;
-                    arrayFinish[type].push(text);
-                    const fd = fs.openSync("train/array-finish.json",'w');
-                    fs.writeSync(fd, JSON.stringify(arrayFinish));
-                    fs.closeSync(fd);
-                    return {err:false, text:"Все заебись"}
+                    const text=req.payload.text,type=req.payload.type;
+                    try {
+                        arrayFinish[type].push(text);
+                        const fd = fs.openSync("train/array-finish.json",'w');
+                        fs.writeSync(fd, JSON.stringify(arrayFinish));
+                        fs.closeSync(fd);
+                        return {err:false, text:"Все заебись"}
+                    }catch (e) {
+                        console.log(e)
+                        return {err:true, text:"Все хуево"}
+                    }
                 },
                 description: 'Обзор всех категорий',
                 tags:        ['api'],
@@ -110,6 +115,27 @@ exports.plugin = {
                     payload:Joi.object({
                         text:Joi.string(),
                         type:Joi.string()
+                    })
+                }
+            }
+        });
+        server.route({
+            method: 'POST',
+            path:   '/address/auto',
+            config: {
+                async handler(req) {
+                    console.log(req.payload);
+                },
+                description: 'Обзор всех категорий',
+                tags:        ['api'],
+                payload: {
+                    output: 'stream',
+                    parse: true,
+                    allow: 'multipart/form-data'
+                },
+                validate: {
+                    payload:Joi.object({
+                        file: Joi.any().required(),
                     })
                 }
             }
