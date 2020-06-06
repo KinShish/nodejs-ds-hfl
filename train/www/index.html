@@ -15,15 +15,29 @@
     <div id="table">
 
     </div>
+
 </div>
+<div id="close"></div>
+
 </body>
 <script>
 	let indexString;
 	$('#main').css({'display' : 'none'});
+    function deleteString(id){
+        $.ajax({
+            url: 'http://192.168.1.23:3000/address/'+id,
+            type: 'DELETE',
+            success: function(res) {
+                if(!res.err){
+                    loadString();
+                }
+            }
+        });
+    }
 	function loadString(){
 		$('#main').css({'display' : 'block'});
 		$.ajax({
-			url: 'http://192.168.0.121:3000/address',
+			url: 'http://192.168.1.23:3000/address',
 			success: (res)=>{
 				console.log(res);
 				indexString=res.index;
@@ -38,23 +52,18 @@
                     html+="</div></div></div>"
                     $('#table').html(html);
                 })
+                $('#close').html("<button class=\"mainBtn\" onclick=\"deleteString("+indexString+")\">Завершить</button>");
+
 			}
 		});
 	}
 	function successful(type,text){
-		$.ajax({
-			type: 'POST',
-			url: 'http://192.168.0.121:3000/address',
-			data: {"text": text,"type": type},
-			success: (res)=>{
-				console.log(res)
-			},
-            error:(res)=>{
-	            console.log(res)
+        $.post('http://192.168.1.23:3000/address',{type:type,text:text},(res)=>{
+            console.log(res)
+            if(!res.err){
+                alert('Сохранил')
             }
-		});
-
-		console.log(type,text)
+        })
 	}
 </script>
 </html>
