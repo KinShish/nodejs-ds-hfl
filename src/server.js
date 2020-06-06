@@ -28,7 +28,7 @@ module.exports={init};
 const natural = require('natural');
 
 console.log(natural.JaroWinklerDistance("Москва", "fdsljldfkgdfg"));
-console.log(natural.JaroWinklerDistance("Краснодарский край", "Красноярский край"));
+console.log(natural.JaroWinklerDistance("Краснодарский край", "Краснодарский край"));
 
 /*
 20000415;"Россия, 140014, Московская обл, Люберецкий район, г. Люберцы, проезд Хлебозаводской, стр.31, офис ГСК ""НЕДРА"

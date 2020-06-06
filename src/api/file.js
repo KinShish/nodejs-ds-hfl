@@ -91,5 +91,44 @@ exports.plugin = {
                 }
             }
         });
+        server.route({
+            method: 'POST',
+            path:   '/address',
+            config: {
+                async handler(req) {
+                    const address=await require('../../train/array-address.json').address[0];
+                    const array=[];
+                    address.array.forEach(text=>{
+                        const status={};
+                        const findMax=(index)=>{
+                            let max=status[index]?status[index]:0;
+                            arrayFinish[index].forEach(a=>{
+                                if(natural.JaroWinklerDistance(text, a)>max){
+                                    max=natural.JaroWinklerDistance(text, a);
+                                }
+                            })
+                            status[index]=max;
+                        }
+                        findMax('country');
+                        findMax('region');
+                        findMax('city');
+                        findMax('street');
+                        findMax('house');
+                        findMax('room');
+                        array.push({text:text,status:status})
+                    })
+                    return {index:address.index,text:address.array.join(','),array:array}
+                },
+                description: 'Обзор всех категорий',
+                tags:        ['api'],
+                validate: {
+                    params:Joi.object({
+                        text:Joi.string(),
+                        type:Joi.string()
+                    })
+                }
+
+            }
+        });
     }
 };
