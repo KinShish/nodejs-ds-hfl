@@ -17,7 +17,7 @@ regExpRoom=/^[0-9а-яё."'\-\s]+$/i;
 const array={address:[]};
 let count=0;
 const lineReader = readline.createInterface({
-    input: fs.createReadStream('./good/bad.csv')
+    input: fs.createReadStream('./good/SDFSDFDS')
 });
 
 lineReader.on('line', function (line) {
@@ -39,26 +39,26 @@ lineReader.on('close', ()=>{
                 break;
             }
         }
-        const similarityGlogal=(index,text)=>{
+        const similarityGlogal=(index,text,sd)=>{
             const similarity = arrayFinish[index].filter(function (e) {
                 return e.substr(0, 3)=== text.substr(0, 3);
             });
             similarity.forEach(a=>{
-                if (natural.JaroWinklerDistance(text, a) > regiom.max) {
-                    regiom.max = natural.JaroWinklerDistance(text, a);
-                    regiom.text = a
+                if (natural.JaroWinklerDistance(text, a) > sd.max) {
+                    sd.max = natural.JaroWinklerDistance(text, a);
+                    sd.text = a
                 }
             })
         }
         str.array.forEach(text=>{
             if((regExpRegion.test(text))&&(!(/^[0-9\s]+$/i.test(text)))&&(((!streetText.test(text))&&(!cityText.test(text))&&(!houseText.test(text)))||regionText.test(text))) {
-                similarityGlogal('region',text)
+                similarityGlogal('region',text,regiom)
             }
             if((regExpCity.test(text))&&(!(/^[0-9\s]+$/i.test(text)))&&(((!streetText.test(text))&&(!regionText.test(text))&&(!houseText.test(text)))||cityText.test(text))) {
-                similarityGlogal('city',text)
+                similarityGlogal('city',text,city)
             }
             if((regExpStreet.test(text))&&(!(/^[0-9\s]+$/i.test(text)))&&(((!cityText.test(text))&&(!regionText.test(text))&&(!houseText.test(text)))||streetText.test(text))) {
-                similarityGlogal('street',text)
+                similarityGlogal('street',text,street)
             }
         })
         exitLine+=str.line+';0 '+regiom.text+', '+city.text+', '+street.text+', '+house+'\n';
