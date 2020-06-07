@@ -4,30 +4,42 @@ const cliProgress = require('cli-progress');
 const fs=require('fs');
 const natural = require('natural');
 let arrayFinish=require('../../train/array-finish.json');
-regExpRegion=/dfgdfg/;regExpRegionNo=/dfgdfg/;
-regExpCity=/dfgdfg/;regExpCityNo=/dfgdfg/;
-regExpStreet=/dfgdfg/;regExpStreetNo=/dfgdfg/;
-regExpCity=/dfgdfg/;regExpCityNo=/dfgdfg/;
-regExpHouse=/dfgdfg/;regExpHouseNo=/dfgdfg/;
-regExpRoom=/dfgdfg/;regExpRoomNo=/dfgdfg/;
+const streetText=/(мкр )|(мкр\.)|(yлица )|(проезд )|(ул\.)|(проспект )|(переулок )|(пер\.)|(пр\.)|(бульвар )|(проулок )|(аллея )|(площадь )|(шоссе )|(стрит )|(магистраль )|(дорога )/i;
+const regionText=/(регион)|(край)|(область)|(обл\.)|(рег\.)|(республика)|(респ\.)/i;
+const cityText=/(д\.)|(рп )|(дп )|(днп )|(город )|(городок )|(поселок )|(пос\.)|(посёлок )|(деревня )|(селение )|(поселение )|(пгт )|(хутор )|(х\.)|(хут\.)|(село )|(с\.)|(пгт\.)|(г\.)/i;
+const houseText=/(д\.)|(дом )|(дом\.)|(здание )|(строение )|(стр\.)|(коттедж )/i;
+regExpRegion=/^[а-яё."'\-\s]+$/i;
+regExpCity=/^[0-9а-яё."'\-\s]+$/i;
+regExpStreet=/^[0-9а-яё."'\-\s]+$/i;
+regExpHouse=/^[0-9а-яё."'\-\s]+$/i;
+regExpRoom=/^[0-9а-яё."'\-\s]+$/i;
 const getStatus=(text)=>{
     const status={};
     const findMax=(index)=>{
         let max=status[index]?status[index]:0;
-        arrayFinish[index].forEach(a=>{
-            if((/^[а-яА-Я.\-\s]+$/.test(text))||((index==='city')&&(!/^[0-9\s]+$/.test(text))&&(/^[а-яА-Я0-9.\-\s]+$/.test(text)))||((index==='street')&&(!/^[0-9\s]+$/.test(text))&&(/^[а-яА-Я0-9.\-\s]+$/.test(text)))||((index==='house')&&(/^[а-яА-Я0-9.\-\s]+$/.test(text)))||((index==='room')&&(/^[а-яА-Я0-9.\-\s]+$/.test(text)))) {
-                if (natural.JaroWinklerDistance(text, a) > max) {
-                    max = natural.JaroWinklerDistance(text, a);
-                }
+        const similarity = arrayFinish[index].filter(function (e) {
+            return e.substr(0, 3)=== text.substr(0, 3);
+        });
+        similarity.forEach(a=>{
+            if (natural.JaroWinklerDistance(text, a) > max) {
+                max = natural.JaroWinklerDistance(text, a);
             }
         })
         status[index]=max;
     }
     findMax('country');
-    findMax('region');
-    findMax('city');
-    findMax('street');
-    findMax('house');
+    if((regExpRegion.test(text))&&(!(/^[0-9\s]+$/i.test(text)))&&(((!streetText.test(text))&&(!cityText.test(text))&&(!houseText.test(text)))||regionText.test(text))){
+        findMax('region');
+    }
+    if((regExpCity.test(text))&&(!(/^[0-9\s]+$/i.test(text)))&&(((!streetText.test(text))&&(!regionText.test(text))&&(!houseText.test(text)))||cityText.test(text))){
+        findMax('city');
+    }
+    if((regExpStreet.test(text))&&(!(/^[0-9\s]+$/i.test(text)))&&(((!cityText.test(text))&&(!regionText.test(text))&&(!houseText.test(text)))||streetText.test(text))){
+        findMax('street');
+    }
+    if((regExpHouse.test(text))&&(((!cityText.test(text))&&(!regionText.test(text))&&(!streetText.test(text)))||houseText.test(text))){
+        findMax('house');
+    }
     findMax('room');
     return status;
 }
@@ -84,7 +96,7 @@ exports.plugin = {
                         if(index>-1){
                             address.splice(index,1);
                         }
-                        const fd = fs.openSync("../train/array-address.json",'w');
+                        const fd = fs.openSync("train/array-address.json",'w');
                         fs.writeSync(fd, JSON.stringify({address:address}));
                         fs.closeSync(fd);
                         return {err:false,text:"Все заебись"}
@@ -111,7 +123,7 @@ exports.plugin = {
                     const text=req.payload.text,type=req.payload.type;
                     try {
                         arrayFinish[type].push(text);
-                        const fd = fs.openSync("../train/array-finish.json",'w');
+                        const fd = fs.openSync("train/array-finish.json",'w');
                         fs.writeSync(fd, JSON.stringify(arrayFinish));
                         fs.closeSync(fd);
                         return {err:false, text:"Все заебись"}
@@ -144,7 +156,7 @@ exports.plugin = {
                     string.forEach(a=>{
                         i++;
                         const address = a.length>10?a.split(';')[1].replace(/\"/):',';
-                        const arrayAddress=address.split(',');
+                        const arrayAddress=address.split(',').length>0?address.split(','):[];
                         arrayAddress.forEach(text=>{
                             const status=getStatus(text)
                             let maxStatus={type:null,count:0}
@@ -154,14 +166,14 @@ exports.plugin = {
                                     maxStatus.count=status[type];
                                 }
                             }
-                            if((maxStatus.type==='city')||(maxStatus.type==='street')||(maxStatus.type==='region')){
-                                if(maxStatus.count<=0.85){
+                            if((maxStatus.type==='city')||(maxStatus.type==='street')||(maxStatus.type==='region')||(maxStatus.type==='house')){
+                                if(maxStatus.count<=0.90){
                                     count++;
                                     array.address.push({index:count,array:a});
                                 }
-                                if((maxStatus.count>0.85)&&(maxStatus.count!==1)){
+                                if((maxStatus.count>0.90)&&(maxStatus.count!==1)){
                                     arrayFinish[maxStatus.type].push(text);
-                                    const fd = fs.openSync("../train/array-finish.json",'w');
+                                    const fd = fs.openSync("train/array-finish.json",'w');
                                     fs.writeSync(fd, JSON.stringify(arrayFinish));
                                     fs.closeSync(fd);
                                 }
@@ -170,7 +182,7 @@ exports.plugin = {
                         bar1.update(i);
                     })
                     try {
-                        const fd = fs.openSync("../train/array-address.json",'w');
+                        const fd = fs.openSync("train/array-address.json",'w');
                         fs.writeSync(fd, JSON.stringify(array));
                         fs.closeSync(fd);
                         bar1.stop();

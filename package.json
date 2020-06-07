@@ -4,7 +4,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "mocha src/test --timeout 10000",
-    "train": "nodemon train/index.js",
+    "train": "node src/index.js --max_old_space_size=4096",
     "start": "nodemon src/index.js"
   },
   "keywords": [],
