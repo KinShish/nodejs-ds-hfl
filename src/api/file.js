@@ -14,7 +14,7 @@ regExpStreet=/^[0-9а-яё."'\-\s]+$/i;
 regExpHouse=/^[0-9а-яё."'\-\s]+$/i;
 regExpRoom=/^[0-9а-яё."'\-\s]+$/i;
 const getStatus=(text)=>{
-    const status={};
+    const status={country:0,region:0,city:0,street:0,house:0,room:0};
     const findMax=(index)=>{
         let max=status[index]?status[index]:0;
         const similarity = arrayFinish[index].filter(function (e) {
@@ -68,12 +68,21 @@ exports.plugin = {
             path:   '/address',
             config: {
                 async handler(req) {
-                    const address=await require('../../train/array-address.json').address[0];
-                    const array=[];
-                    address.array.forEach(text=>{
-                        array.push({text:text,status:getStatus(text)})
-                    })
-                    return {index:address.index,text:address.array.join(','),array:array}
+                    try {
+                        const address=require('../../train/array-address.json').address[0];
+                        console.log(address)
+                        const array=[];
+
+                        address.array.forEach(text=>{
+                            console.log(text)
+                            array.push({text:text,status:getStatus(text)})
+                            console.log(getStatus(text));
+                        })
+                        return {index:address.index,text:address.array.join(','),array:array}
+                    }catch (e) {
+                        console.log(e)
+                    }
+
                 },
                 description: 'Обзор всех категорий',
                 tags:        ['api']
