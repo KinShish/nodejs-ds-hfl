@@ -40,7 +40,7 @@ lineReader.on('close', ()=>{
             }
         }
         const similarityGlogal=(index,text)=>{
-            const similarity = arrayFinish['region'].filter(function (e) {
+            const similarity = arrayFinish[index].filter(function (e) {
                 return e.substr(0, 3)=== text.substr(0, 3);
             });
             similarity.forEach(a=>{
