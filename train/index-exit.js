@@ -17,7 +17,7 @@ regExpRoom=/^[0-9а-яё."'\-\s]+$/i;
 const array={address:[]};
 let count=0;
 const lineReader = readline.createInterface({
-    input: fs.createReadStream('./good/SDFSDFDS')
+    input: fs.createReadStream('./good/first.csv')
 });
 
 lineReader.on('line', function (line) {
