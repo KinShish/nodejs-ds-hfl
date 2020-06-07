@@ -4,8 +4,9 @@
   "main": "src/index.js",
   "scripts": {
     "test": "mocha src/test --timeout 10000",
-    "train": "node src/index.js --max_old_space_size=4096",
-    "start": "nodemon src/index.js"
+    "train": "node train/index.js --max_old_space_size=4096",
+    "final": "node train/index-exit.js --max_old_space_size=4096",
+    "start": "node src/index.js --max_old_space_size=4096"
   },
   "keywords": [],
   "author": "KinShish <shishkinb13@gmail.com>",

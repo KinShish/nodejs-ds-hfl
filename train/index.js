@@ -4,7 +4,7 @@ const readline=require('readline');
 const array={address:[]};
 let count=0;
 const lineReader = readline.createInterface({
-    input: fs.createReadStream('./good/first.csv')
+    input: fs.createReadStream('train/good/first.csv')
 });
 
 lineReader.on('line', function (line) {
