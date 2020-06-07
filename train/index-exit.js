@@ -39,30 +39,26 @@ lineReader.on('close', ()=>{
                 break;
             }
         }
+        const similarityGlogal=(index,text)=>{
+            const similarity = arrayFinish['region'].filter(function (e) {
+                return e.substr(0, 3)=== text.substr(0, 3);
+            });
+            similarity.forEach(a=>{
+                if (natural.JaroWinklerDistance(text, a) > regiom.max) {
+                    regiom.max = natural.JaroWinklerDistance(text, a);
+                    regiom.text = a
+                }
+            })
+        }
         str.array.forEach(text=>{
             if((regExpRegion.test(text))&&(!(/^[0-9\s]+$/i.test(text)))&&(((!streetText.test(text))&&(!cityText.test(text))&&(!houseText.test(text)))||regionText.test(text))) {
-                arrayFinish['region'].forEach(a => {
-                    if (natural.JaroWinklerDistance(text, a) > regiom.max) {
-                        regiom.max = natural.JaroWinklerDistance(text, a);
-                        regiom.text = a
-                    }
-                })
+                similarityGlogal('region',text)
             }
             if((regExpCity.test(text))&&(!(/^[0-9\s]+$/i.test(text)))&&(((!streetText.test(text))&&(!regionText.test(text))&&(!houseText.test(text)))||cityText.test(text))) {
-                arrayFinish['city'].forEach(a => {
-                    if (natural.JaroWinklerDistance(text, a) > city.max) {
-                        city.max = natural.JaroWinklerDistance(text, a);
-                        city.text = a
-                    }
-                })
+                similarityGlogal('city',text)
             }
             if((regExpStreet.test(text))&&(!(/^[0-9\s]+$/i.test(text)))&&(((!cityText.test(text))&&(!regionText.test(text))&&(!houseText.test(text)))||streetText.test(text))) {
-                arrayFinish['street'].forEach(a => {
-                    if (natural.JaroWinklerDistance(text, a) > street.max) {
-                        street.max = natural.JaroWinklerDistance(text, a);
-                        street.text = a
-                    }
-                })
+                similarityGlogal('street',text)
             }
         })
         exitLine+=str.line+';0 '+regiom.text+', '+city.text+', '+street.text+', '+house+'\n';
